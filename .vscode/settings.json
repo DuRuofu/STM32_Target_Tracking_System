@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "buzzer.h": "c",
+        "main.h": "c"
+    }
+}

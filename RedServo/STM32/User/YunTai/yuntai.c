@@ -26,9 +26,6 @@ extern uint16_t pwm_B = 1773;
 extern int8_t Position_error[2];
 
 
-//丝滑系数
-int16_t Flow_Coefficient = 1;
-
 
 
 void Yuntai_Init()
@@ -75,8 +72,8 @@ void Yuntai_PID()
 }
 
 
-//云台A(左右)丝滑移动
-void Yuntaiz_A(uint16_t pwm_d)
+//云台A(左右)丝滑移动,两个参数分别为目标位置和移动延时
+void Yuntaiz_A(uint16_t pwm_d,int16_t Flow_Coefficient)
 {
     static uint16_t pwm_A_last = 1500;
 
@@ -101,8 +98,8 @@ void Yuntaiz_A(uint16_t pwm_d)
 }
 
 
-//云台B(上下)丝滑移动
-void Yuntaiz_B(uint16_t pwm_d )
+//云台B(上下)丝滑移动，两个参数分别为目标位置和移动延时
+void Yuntaiz_B(uint16_t pwm_d, int16_t Flow_Coefficient)
 {
     static uint16_t pwm_B_last = 1800;
     printf("pwm_d:%d,pwm_A_last:%d\r\n",pwm_d,pwm_B_last);
@@ -131,6 +128,6 @@ void Yuntaiz_B(uint16_t pwm_d )
 //云台控制
 void Yuntai_Control(void)
 {
-    Yuntaiz_A(pwm_A);
-    Yuntaiz_B(pwm_B);
+    Yuntaiz_A(pwm_A,0);
+    Yuntaiz_B(pwm_B,0);
 }

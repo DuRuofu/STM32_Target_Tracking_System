@@ -44,3 +44,10 @@ void Buzzer_ShortBeep(void)
 }
 
 
+//蜂鸣器长响
+void Buzzer_LongBeep(void)
+{
+    Buzzer_Control(1);
+    HAL_Delay(1000);
+    Buzzer_Control(0);
+}

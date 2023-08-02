@@ -82,16 +82,16 @@ void Key_3_Callback(void)
     if (setA_B_Flag==0)
     {
         //设置舵机A
-        pwm_A=pwm_A+2;
+        pwm_A=pwm_A+5;
 
     }
     else if (setA_B_Flag==1)
     {
         //设置舵机B
-        pwm_B=pwm_B+2;
+        pwm_B=pwm_B+5;
 
     }
-    Yuntai_Init();
+    Yuntai_Control();
 
 }
 
@@ -100,16 +100,16 @@ void Key_4_Callback(void)
     if (setA_B_Flag==0)
     {
         //设置舵机A
-        pwm_A=pwm_A-2;
+        pwm_A=pwm_A-5;
 
     }
     else if (setA_B_Flag==1)
     {
         //设置舵机B
-        pwm_B=pwm_B-2;
+        pwm_B=pwm_B-5;
 
     }
-    Yuntai_Init();
+    Yuntai_Control();
 
 }
 

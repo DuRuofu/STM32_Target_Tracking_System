@@ -1,20 +1,24 @@
 #include "app.h"
-
+#include "Buzzer.h"
 //题目选择标志位
 extern uint8_t Problem_Flag = 0;
 
 
+//中心位置处参数
+extern uint16_t Centre_A = 1494;
+extern uint16_t Centre_B = 1796;
 
+// 舵机A（左右边框）
+extern uint16_t left_PWM = 1594;
+extern uint16_t right_PWM = 1389;
 
-extern uint16_t left_PWM = 0;
-extern uint16_t right_PWM = 0;
-extern uint16_t up_PWM = 0;
-extern uint16_t down_PWM = 0;
+// 舵机B （上下边框参数）
+extern uint16_t up_PWM = 1696;
+extern uint16_t down_PWM = 1891;
 
 
 extern uint16_t pwm_A ;
 extern uint16_t pwm_B ;
-
 
 
 
@@ -37,40 +41,41 @@ void App_Init(void)
 //题目1
 void Problem1(void){
         //执行一次
-        printf("题目1执行");
-        Yuntaiz_A(1494);   // 云台丝滑移动
-        Yuntaiz_B(1791);   // 云台丝滑移动
+        pwm_A =  1494;
+        pwm_B =  1796;
+           
+        Yuntaiz_A(pwm_A,1);   // 云台丝滑移动
+        Yuntaiz_B(pwm_B,1);   // 云台丝滑移动
 }
 
 //题目2
 void Problem2(void){
     //执行一次
-    uint8_t i = 0;
-    if(i == 0)
-    {
-        Yuntai_Init();   // 复位
+        //Yuntai_Init();   // 复位
         //开始运转 A舵机负责左右  B舵机负责上下
-        SERVO_PWMB_Set(up_PWM);   //运动到最上方
-        SERVO_PWMA_Set(right_PWM);   //运动到最右方
-        HAL_Delay(1000);
-        SERVO_PWMB_Set(down_PWM);   //运动到最下方
-        SERVO_PWMA_Set(left_PWM);   //运动到最左方
-        HAL_Delay(1000);
-        SERVO_PWMB_Set(up_PWM);   //运动到最上方
-        SERVO_PWMA_Set(right_PWM);   //运动到最右方
-        HAL_Delay(1000);
-        i = 1;
-    }
+        Yuntaiz_B(up_PWM,2);   //运动到最上方
+        HAL_Delay(2000);
+        Yuntaiz_A(right_PWM,2);   //运动到最右方
+        HAL_Delay(2000);
+        Yuntaiz_B(down_PWM,2);   //运动到最下方
+        HAL_Delay(2000);
+        Yuntaiz_A(left_PWM,2);   //运动到最左方
+        HAL_Delay(2000);
+        Yuntaiz_B(up_PWM,2);   //运动到最上方
+        HAL_Delay(2000);
+        Yuntaiz_A(right_PWM,2);   //运动到最右方
 }
 
 
 //题目3
 void Problem3(void){
 
+
 }
 
 //题目4
 void Problem4(void){
+    
 
 }
 
@@ -88,20 +93,20 @@ void App_Task(void)
     case 1:
         if(last_Flag != Problem_Flag)
         {
-            //Problem1();
-
+            Problem1();
+            Buzzer_LongBeep();
             last_Flag = Problem_Flag;
         }
         break;
     case 2:
         if(last_Flag != Problem_Flag)
         {
-            //Problem2();
-
+            Problem2();
             last_Flag = Problem_Flag;
         }
         break;
     case 3:
+        
     
         break;
     case 4:
@@ -131,7 +136,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         if (LED_Heartbeat == 30)
         {
             LED_Toggle(1);
-            //Yuntai_Init();   // 云台控制 
         }
     }
 }

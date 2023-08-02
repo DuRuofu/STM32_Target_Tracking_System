@@ -5,6 +5,6 @@
 
 void Buzzer_Init(void);
 void Buzzer_ShortBeep(void);
-
+void Buzzer_LongBeep(void);
 #endif // !__Buzzer_H
 

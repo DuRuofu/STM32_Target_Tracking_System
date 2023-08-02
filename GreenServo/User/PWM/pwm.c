@@ -48,26 +48,7 @@ void PWM_Init(void)
 } 
 
 
-//--------------------车轮电机PWM调节--------------------
-//PWMA占空比调节
-void Motor_PWMA_Set(uint16_t pwm_d)
-{
-    if(pwm_d > PWM1_D)
-    {
-        pwm_d = PWM1_D;
-    }
-    __HAL_TIM_SET_COMPARE(&TIM, PWM_MOTOR_CHANNEL_A, pwm_d);
-}
 
-//PWMB占空比调节
-void Motor_PWMB_Set(uint16_t pwm_d)
-{
-    if(pwm_d > PWM1_D)
-    {
-        pwm_d = PWM1_D;
-    }
-    __HAL_TIM_SET_COMPARE(&TIM, PWM_MOTOR_CHANNEL_B, pwm_d);
-}
 
 
 //--------------------舵机PWM调节--------------------

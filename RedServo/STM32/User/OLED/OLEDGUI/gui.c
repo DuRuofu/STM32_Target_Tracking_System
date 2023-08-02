@@ -2,7 +2,7 @@
  * @Author: DuRuofu duruofu@qq.com
  * @Date: 2023-07-27 09-48-56
  * @LastEditors: DuRuofu
- * @LastEditTime: 2023-08-02 16-58-00
+ * @LastEditTime: 2023-08-02 17-11-18
  * @FilePath: \Project\RedServo\STM32\User\OLED\OLEDGUI\gui.c
  * @Description: 0.96OLED配合的GUI简单GUI界面
  * Copyright (c) 2023 by duruofu@foxmail.com All Rights Reserved. 
@@ -13,15 +13,22 @@
 
 
 //菜单页
-extern uint8_t GUI_Menu = 1;
+extern uint8_t GUI_Menu = 0;
 extern int32_t Servo_Kp ;            // 舵机比例系数
 extern int32_t Servo_Ki ;            // 舵机积分系数
 extern int32_t Servo_Kd ;            // 舵机微分系数
+
 extern uint16_t pwm_A ;
 extern uint16_t pwm_B ;
 
 //题目标志位
 extern uint8_t Problem_Flag;
+
+
+//设置A_B舵机的标志位
+extern uint8_t setA_B_Flag;
+
+
 
 
 void Menu_Refresh(void)
@@ -38,9 +45,11 @@ void Menu_Refresh(void)
    {
         case 0:
         {
-            OLED_ShowString(40,0,"Green  ",16);
-            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag); 
-            
+            OLED_ShowString(40,0,"Serv",16);
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag);
+            sprintf((char *)str_buff2, "setA_B_Flag:%d",setA_B_Flag);
+            sprintf((char *)str_buff3, "pwm_A:%5d",pwm_A);
+            sprintf((char *)str_buff4, "pwm_B:%5d",pwm_B);      
             break;
         }
         case 1:

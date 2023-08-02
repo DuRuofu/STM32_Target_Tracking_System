@@ -11,6 +11,7 @@
 #define DEBOUNCE_DELAY 250 // 设置消抖延时为200毫秒
 
 
+
 //GUI菜单标志位
 extern uint8_t GUI_Menu;
 
@@ -18,7 +19,12 @@ extern uint8_t GUI_Menu;
 extern uint8_t Problem_Flag;
 
 //设置A_B舵机的标志位
-uint8_t setA_B_Flag =0;
+extern uint8_t setA_B_Flag =0;
+
+// 初始位置  //舵机中值
+extern uint16_t pwm_A ;
+extern uint16_t pwm_B ;
+
 
 /**
  * @description: 按键初始化 (使用CubeMX自动生成的宏定义，就不用写这个函数了)
@@ -46,7 +52,7 @@ void Key_1_Callback(void)
         // }
 
         //更换题目
-        if (Problem_Flag < 4)
+        if (Problem_Flag < 3)
         {
             Problem_Flag++;
         }
@@ -76,15 +82,16 @@ void Key_3_Callback(void)
     if (setA_B_Flag==0)
     {
         //设置舵机A
+        pwm_A=pwm_A+2;
 
     }
     else if (setA_B_Flag==1)
     {
         //设置舵机B
+        pwm_B=pwm_B+2;
 
     }
-    
-
+    Yuntai_Init();
 
 }
 
@@ -93,13 +100,16 @@ void Key_4_Callback(void)
     if (setA_B_Flag==0)
     {
         //设置舵机A
+        pwm_A=pwm_A-2;
 
     }
     else if (setA_B_Flag==1)
     {
         //设置舵机B
+        pwm_B=pwm_B-2;
 
     }
+    Yuntai_Init();
 
 }
 

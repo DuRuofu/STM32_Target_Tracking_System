@@ -18,21 +18,21 @@ extern int32_t Servo_Kd = 0;            // 舵机微分系数
 
 
 // 初始位置  //舵机中值
-extern uint16_t pwm_A = 1500;
-extern uint16_t pwm_B = 1800;
+extern uint16_t pwm_A = 1450;
+extern uint16_t pwm_B = 1773;
 
 
 
 extern int8_t Position_error[2];
 
 
-
+//丝滑系数
+int16_t Flow_Coefficient = 1;
 
 
 
 void Yuntai_Init()
 {
-    PWM_Init();
     SERVO_PWMA_Set(pwm_A);
     SERVO_PWMB_Set(pwm_B);
 }
@@ -75,3 +75,62 @@ void Yuntai_PID()
 }
 
 
+//云台A(左右)丝滑移动
+void Yuntaiz_A(uint16_t pwm_d)
+{
+    static uint16_t pwm_A_last = 1500;
+
+    if(pwm_d > pwm_A_last)
+    {
+        while(pwm_A_last != pwm_d)
+        {
+            SERVO_PWMA_Set(pwm_A_last++ );
+            HAL_Delay(Flow_Coefficient);
+        }
+        return;
+    }
+    else if(pwm_d < pwm_A_last)
+    {
+        while(pwm_A_last != pwm_d)
+        {
+            SERVO_PWMA_Set(pwm_A_last-- );
+            HAL_Delay(Flow_Coefficient);
+        }
+        return;
+    }
+}
+
+
+//云台B(上下)丝滑移动
+void Yuntaiz_B(uint16_t pwm_d )
+{
+    static uint16_t pwm_B_last = 1800;
+    printf("pwm_d:%d,pwm_A_last:%d\r\n",pwm_d,pwm_B_last);
+    if(pwm_d > pwm_B_last)
+    {
+        while(pwm_B_last != pwm_d)
+        {
+            SERVO_PWMB_Set(pwm_B_last++ );
+            HAL_Delay(Flow_Coefficient);
+        }
+        return;
+    }
+    else if(pwm_d < pwm_B_last)
+    {
+        while(pwm_B_last != pwm_d)
+        {
+            SERVO_PWMB_Set(pwm_B_last-- );
+            HAL_Delay(Flow_Coefficient);
+        }
+        return;
+    }
+
+}
+
+
+//云台控制
+void Yuntai_Control(void)
+{
+    Yuntaiz_A(pwm_A);
+    Yuntaiz_B(pwm_B);
+}

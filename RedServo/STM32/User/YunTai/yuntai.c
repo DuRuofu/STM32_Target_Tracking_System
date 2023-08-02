@@ -2,16 +2,13 @@
 #include "debug.h"
 
 
-#define Servo_middle_A 1500  //舵机中值
-#define Servo_middle_B 1800
+
+
 #define Servo_MAX_A 2500    //最大位置
 #define Servo_MAX_B 2200
+
 #define Servo_MIN_A 500     //最小位置
 #define Servo_MIN_B 800
-
-// 初始位置
-#define Servo_middle_A 1500
-#define Servo_middle_B 1800
 
 
 
@@ -20,9 +17,9 @@ extern int32_t Servo_Ki = 0.8;            // 舵机积分系数
 extern int32_t Servo_Kd = 0;            // 舵机微分系数
 
 
-
-extern uint16_t pwm_A = Servo_middle_A;
-extern uint16_t pwm_B = Servo_middle_B; 
+// 初始位置  //舵机中值
+extern uint16_t pwm_A = 1500;
+extern uint16_t pwm_B = 1800;
 
 
 
@@ -36,8 +33,8 @@ extern int8_t Position_error[2];
 void Yuntai_Init()
 {
     PWM_Init();
-    SERVO_PWMA_Set(Servo_middle_A);
-    SERVO_PWMB_Set(Servo_middle_B);
+    SERVO_PWMA_Set(pwm_A);
+    SERVO_PWMB_Set(pwm_B);
 }
 
 void Yuntai_PID()

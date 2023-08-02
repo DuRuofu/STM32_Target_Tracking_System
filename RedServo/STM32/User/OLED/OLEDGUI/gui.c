@@ -2,8 +2,8 @@
  * @Author: DuRuofu duruofu@qq.com
  * @Date: 2023-07-27 09-48-56
  * @LastEditors: DuRuofu
- * @LastEditTime: 2023-07-29 12-30-15
- * @FilePath: \MDK-ARMd:\duruofu\Project\Avoidance_Car\project\STM32ZET6\Users\OLED\OLEDGUI\gui.c
+ * @LastEditTime: 2023-08-02 16-58-00
+ * @FilePath: \Project\RedServo\STM32\User\OLED\OLEDGUI\gui.c
  * @Description: 0.96OLED配合的GUI简单GUI界面
  * Copyright (c) 2023 by duruofu@foxmail.com All Rights Reserved. 
  */
@@ -13,14 +13,15 @@
 
 
 //菜单页
-extern uint8_t GUI_Menu = 0;
+extern uint8_t GUI_Menu = 1;
 extern int32_t Servo_Kp ;            // 舵机比例系数
 extern int32_t Servo_Ki ;            // 舵机积分系数
 extern int32_t Servo_Kd ;            // 舵机微分系数
 extern uint16_t pwm_A ;
 extern uint16_t pwm_B ;
 
-
+//题目标志位
+extern uint8_t Problem_Flag;
 
 
 void Menu_Refresh(void)
@@ -38,14 +39,14 @@ void Menu_Refresh(void)
         case 0:
         {
             OLED_ShowString(40,0,"Green  ",16);
-            sprintf((char *)str_buff1, "GUI_Menu:%5d",GUI_Menu); 
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag); 
             
             break;
         }
         case 1:
         {
             OLED_ShowString(40,0,"Motor",16);
-            sprintf((char *)str_buff1, "GUI_Menu:%5d",GUI_Menu);
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag);
             sprintf((char *)str_buff2, "Servo_Kp:%3.2f",(float)Servo_Kp);
             sprintf((char *)str_buff3, "Servo_Kp:%3.2f",(float)Servo_Ki);
             sprintf((char *)str_buff4, "Servo_Kp:%3.2f",(float)Servo_Kd);
@@ -56,7 +57,7 @@ void Menu_Refresh(void)
         case 2:
         {
             OLED_ShowString(40,0,"PID  ",16);
-            sprintf((char *)str_buff1, "GUI_Menu:%5d",GUI_Menu); 
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag); 
 
             break;
         }

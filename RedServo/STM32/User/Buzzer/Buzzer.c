@@ -23,11 +23,11 @@ void Buzzer_Init(void)
 void Buzzer_Control(uint8_t status)
 {
     //蜂鸣器控制
-    if (status == 1)
+    if (status == 0)
     {
         HAL_GPIO_WritePin(Buzzer_Pin_GPIO_Port, Buzzer_Pin_Pin, GPIO_PIN_SET);
     }
-    else if (status == 0)
+    else if (status == 1)
     {
         HAL_GPIO_WritePin(Buzzer_Pin_GPIO_Port, Buzzer_Pin_Pin, GPIO_PIN_RESET);
     }

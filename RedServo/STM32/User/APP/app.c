@@ -48,32 +48,22 @@ void Problem1(void){
         pwm_A =  Centre_A;
         pwm_B =  Centre_B;
            
-        Yuntaiz_A(pwm_A,1);   // 云台丝滑移动
-        Yuntaiz_B(pwm_B,1);   // 云台丝滑移动
+        Yuntaiz_A_Move(pwm_A,1);   // 云台丝滑移动
+        Yuntaiz_B_Move(pwm_B,1);   // 云台丝滑移动
 }
 
 //题目2
 void Problem2(void){
-    //执行一次
-        //Yuntai_Init();   // 复位
-        //开始运转 A舵机负责左右  B舵机负责上下
-        Yuntaiz_B(up_PWM,2);   //运动到最上方
-
-        Yuntaiz_A(right_PWM,2);   //运动到最右方
-
-        Yuntaiz_B(down_PWM,2);   //运动到最下方
-
-        Yuntaiz_A(left_PWM,2);   //运动到最左方
-
-        Yuntaiz_B(up_PWM,2);   //运动到最上方
-
-        Yuntaiz_A(right_PWM,2);   //运动到最右方
     
-        pwm_A =  Centre_A;
-        pwm_B =  Centre_B;
-           
-        Yuntaiz_A(pwm_A,1);   // 云台丝滑移动
-        Yuntaiz_B(pwm_B,1);   // 云台丝滑移动
+        Yuntaiz_AB_Move(Centre_A,Centre_B,2);   //运动到中间
+        Yuntaiz_AB_Move(left_PWM,up_PWM,2);//斜着移动到最左上角  
+        Yuntaiz_A_Move(right_PWM,2);   //运动到最右方
+        Yuntaiz_B_Move(down_PWM,2);   //运动到最下方
+        Yuntaiz_A_Move(left_PWM,2);   //运动到最左方
+        Yuntaiz_B_Move(up_PWM,2);   //运动到最上方
+        Yuntaiz_A_Move(right_PWM,2);   //运动到最右方
+        Yuntaiz_AB_Move(Centre_A,Centre_B,2);   //运动到中间
+   
 }
 
 

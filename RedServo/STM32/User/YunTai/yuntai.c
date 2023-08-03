@@ -37,6 +37,13 @@ void Yuntai_Init()
     SERVO_PWMB_Set(pwm_B);
 }
 
+//云台控制
+void Yuntai_Control(void)
+{
+    Yuntaiz_A_Move(pwm_A,0);
+    Yuntaiz_B_Move(pwm_B,0);
+}
+
 void Yuntai_PID()
 {
     static int16_t L_x_err=0,L_L_x_err=0,L_y_err=0,L_L_y_err=0;
@@ -76,73 +83,61 @@ void Yuntai_PID()
 
 
 //云台A(左右)丝滑移动,两个参数分别为目标位置和移动延时
-void Yuntaiz_A(uint16_t pwm_d,int16_t Flow_Coefficient)
+void Yuntaiz_A_Move(uint16_t pwm_d,int16_t Flow_Coefficient)
 {
-    if(pwm_d > pwm_A_last)
+    printf("a移动");
+    // 计算每次移动的步长
+    int16_t step_a = (pwm_d > pwm_A_last) ? 1 : -1;
+    while (pwm_A_last != pwm_d)
     {
-        while(pwm_A_last != pwm_d+1)
-        {
-            SERVO_PWMA_Set(++pwm_A_last );
-            HAL_Delay(Flow_Coefficient);
-        }
-        
-        return;
-    }
-    else if(pwm_d < pwm_A_last)
-    {
-        while(pwm_A_last != pwm_d+1)
-        {
-            SERVO_PWMA_Set(--pwm_A_last );
-            HAL_Delay(Flow_Coefficient);
-        }
-        return;
+        pwm_A_last += step_a;
+        SERVO_PWMA_Set(pwm_A_last);
+        HAL_Delay(Flow_Coefficient);
     }
 }
 
 
 
 // 云台B(上下)丝滑移动，两个参数分别为目标位置和移动延时
-void Yuntaiz_B(uint16_t pwm_d, int16_t Flow_Coefficient)
+void Yuntaiz_B_Move(uint16_t pwm_d, int16_t Flow_Coefficient)
 {
-
-    printf("pwm_d:%d,pwm_A_last:%d\r\n",pwm_d,pwm_B_last);
-    if(pwm_d > pwm_B_last)
+    printf("B移动");
+    // 计算每次移动的步长
+    int16_t step_b = (pwm_d > pwm_B_last) ? 1 : -1;
+    while (pwm_B_last != pwm_d)
     {
-        while(pwm_B_last != pwm_d+1)
-        {
-            SERVO_PWMB_Set(++pwm_B_last );
-            HAL_Delay(Flow_Coefficient);
-        }
-        return;
-    }
-    else if(pwm_d < pwm_B_last)
-    {
-        while(pwm_B_last != pwm_d+1)
-        {
-            SERVO_PWMB_Set(--pwm_B_last );
-            HAL_Delay(Flow_Coefficient);
-        }
-        return;
+        pwm_B_last += step_b;
+        SERVO_PWMB_Set(pwm_B_last);
+        HAL_Delay(Flow_Coefficient);
     }
 }
 
 
-
-//走斜线
+// 走斜线
 // 云台B(上下)丝滑移动，三个参数分别为目标位置和移动延时
-void Yuntaiz_AB(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
+void Yuntaiz_AB_Move(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
 {
+    printf("ab移动");
+    // 计算每次移动的步长
+    int16_t step_a = (pwm_a > pwm_A_last) ? 1 : -1;
+    int16_t step_b = (pwm_b > pwm_B_last) ? 1 : -1;
     
-    
-    
-
+    // 按照步长移动云台A和云台B，直到达到目标位置
+    while (pwm_A_last != pwm_a || pwm_B_last != pwm_b)
+    {
+        if (pwm_A_last != pwm_a)
+        {
+            pwm_A_last += step_a;
+            SERVO_PWMA_Set(pwm_A_last);
+        }
+        if (pwm_B_last != pwm_b)
+        {
+            pwm_B_last += step_b;
+            SERVO_PWMB_Set(pwm_B_last);
+        }
+        HAL_Delay(Flow_Coefficient);
+    }
 }
 
 
 
-//云台控制
-void Yuntai_Control(void)
-{
-    Yuntaiz_A(pwm_A,0);
-    Yuntaiz_B(pwm_B,0);
-}

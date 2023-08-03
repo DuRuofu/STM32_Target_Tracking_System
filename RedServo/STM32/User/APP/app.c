@@ -79,8 +79,8 @@ void Problem2(void){
 
 //题目3
 void Problem3(void){
-
-
+    Yuntai_A4_Track(1566,1497,2);
+    Yuntaiz_AB_Move(Centre_A,Centre_B,2);   //运动到中间
 }
 
 //题目4
@@ -118,8 +118,7 @@ void App_Task(void)
     case 3:
         if(last_Flag != Problem_Flag)
         {
-            //Problem3();
-            //Problem4();
+            Problem3();
             last_Flag = Problem_Flag;
         }
         break;

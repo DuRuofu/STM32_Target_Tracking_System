@@ -141,3 +141,24 @@ void Yuntaiz_AB_Move(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
 
 
 
+// A4靶纸开环循迹(水平摆放)
+void Yuntai_A4_Track(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
+{
+    int16_t left_error = 170; //左右偏
+    int16_t up_error = 118; //上下偏
+
+    //坐标换算
+
+    //移动到起始点
+    Yuntaiz_AB_Move(pwm_a,pwm_b,Flow_Coefficient);
+    //移动到第一个点
+    Yuntaiz_AB_Move(pwm_a-left_error,pwm_b,Flow_Coefficient);
+    //移动到第二个点
+    Yuntaiz_AB_Move(pwm_a-left_error,pwm_b+up_error,Flow_Coefficient);
+    //移动到第三个点
+    Yuntaiz_AB_Move(pwm_a,pwm_b+up_error,Flow_Coefficient);
+    //移动到第四个点
+    Yuntaiz_AB_Move(pwm_a,pwm_b,Flow_Coefficient);
+    
+
+}

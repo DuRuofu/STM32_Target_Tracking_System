@@ -6,8 +6,12 @@
 
 #define KEY1_Pin KEY_1_Pin
 #define KEY2_Pin KEY_2_Pin
+
 #define KEY3_Pin KEY_3_Pin
 #define KEY4_Pin KEY_4_Pin
+
+
+
 #define DEBOUNCE_DELAY 250 // 设置消抖延时为200毫秒
 
 
@@ -36,11 +40,12 @@ void Key_Init(void)
 }
 
 
+
+//题目切换按钮
 void Key_1_Callback(void)
 {
 
         //OLED_Clear();
-
         // // 按键1按下的处理代码
         // if (GUI_Menu < 3)
         // {
@@ -51,8 +56,9 @@ void Key_1_Callback(void)
         //     GUI_Menu = 0;
         // }
 
+        if(Problem_Flag == 9 )return;
         //更换题目
-        if (Problem_Flag < 3)
+        if (Problem_Flag < 4)
         {
             Problem_Flag++;
         }
@@ -64,57 +70,51 @@ void Key_1_Callback(void)
     }
 
 
+
 void Key_2_Callback(void)
 {
-    if (setA_B_Flag==1)
-    {
-        setA_B_Flag=0;
-    }
-    else if (setA_B_Flag==0)
-    {
-        setA_B_Flag=1;
-    }
+
 }
 
 
+//设置舵机调试模式的按钮
 void Key_3_Callback(void)
 {
-    if (setA_B_Flag==0)
+    if (Problem_Flag==9)
     {
-        //设置舵机A
-        pwm_A=pwm_A+5;
-
-    }
-    else if (setA_B_Flag==1)
+        Problem_Flag=0;
+    }else
     {
-        //设置舵机B
-        pwm_B=pwm_B+5;
-
+        Problem_Flag=9;
     }
-    Yuntai_Control();
-
 }
 
+
+//上
 void Key_4_Callback(void)
 {
-    if (setA_B_Flag==0)
-    {
-        //设置舵机A
-        pwm_A=pwm_A-5;
-
-    }
-    else if (setA_B_Flag==1)
-    {
-        //设置舵机B
-        pwm_B=pwm_B-5;
-
-    }
-    Yuntai_Control();
 
 }
 
+//下
+void Key_5_Callback(void){
 
+}
 
+//左
+void Key_6_Callback(void){
+
+}
+
+//右
+void Key_7_Callback(void){
+
+}
+
+//急停
+void Key_8_Callback(void){
+
+}
 
 //
 /**
@@ -125,9 +125,6 @@ void Key_4_Callback(void)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 
-
-    
-    
     /* Prevent unused argument(s) compilation warning */
     UNUSED(GPIO_Pin);
     /* NOTE: This function Should not be modified, when the callback is needed,
@@ -146,15 +143,34 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
     else if(GPIO_Pin == KEY3_Pin)
     {
-        // 按键2按下的处理代码
+        // 按键3按下的处理代码
         Debounce(GPIO_Pin, Key_3_Callback);
     }
      else if(GPIO_Pin == KEY4_Pin)
     {
-        // 按键2按下的处理代码
+        // 按键4按下的处理代码
         Debounce(GPIO_Pin, Key_4_Callback);
     }
-
+     else if(GPIO_Pin == KEY4_Pin)
+    {
+        // 按键5按下的处理代码
+        Debounce(GPIO_Pin, Key_5_Callback);
+    }
+     else if(GPIO_Pin == KEY4_Pin)
+    {
+        // 按键6按下的处理代码
+        Debounce(GPIO_Pin, Key_6_Callback);
+    }
+     else if(GPIO_Pin == KEY4_Pin)
+    {
+        // 按键7按下的处理代码
+        Debounce(GPIO_Pin, Key_7_Callback);
+    }
+     else if(GPIO_Pin == KEY4_Pin)
+    {
+        // 按键8按下的处理代码
+        Debounce(GPIO_Pin, Key_8_Callback);
+    }
 }
 
 

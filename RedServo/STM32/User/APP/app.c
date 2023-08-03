@@ -1,5 +1,7 @@
 #include "app.h"
 #include "Buzzer.h"
+#include "at24c02.h"
+
 //题目选择标志位
 extern uint8_t Problem_Flag = 0;
 
@@ -20,7 +22,7 @@ extern uint16_t down_PWM = 1891;
 extern uint16_t pwm_A ;
 extern uint16_t pwm_B ;
 
-
+#define DEVICE_ADDRESS 0x50
 
 /**
  * @description: 系统应用初始化
@@ -75,7 +77,7 @@ void Problem3(void){
 
 //题目4
 void Problem4(void){
-    
+
 
 }
 
@@ -93,7 +95,7 @@ void App_Task(void)
     case 1:
         if(last_Flag != Problem_Flag)
         {
-            Problem1();
+            //Problem1();
             Buzzer_LongBeep();
             last_Flag = Problem_Flag;
         }
@@ -101,16 +103,38 @@ void App_Task(void)
     case 2:
         if(last_Flag != Problem_Flag)
         {
-            Problem2();
+            //Problem2();
             last_Flag = Problem_Flag;
         }
         break;
     case 3:
-        
-    
+        if(last_Flag != Problem_Flag)
+        {
+            //Problem3();
+            //Problem4();
+            last_Flag = Problem_Flag;
+        }
         break;
+        
     case 4:
-    
+         if(last_Flag != Problem_Flag)
+        {
+            
+            last_Flag = Problem_Flag;
+        }
+        break;
+    case 9:
+        //舵机移动模式
+        // 上
+        if (HAL_GPIO_ReadPin(KEY_4_GPIO_Port, KEY_4_Pin) == 1) pwm_B -= 1;
+        //下
+        if (HAL_GPIO_ReadPin(KEY_5_GPIO_Port, KEY_5_Pin) == 1) pwm_B += 1;
+        //左
+        if (HAL_GPIO_ReadPin(KEY_6_GPIO_Port, KEY_6_Pin) == 1) pwm_A += 1;
+        //右
+        if (HAL_GPIO_ReadPin(KEY_7_GPIO_Port, KEY_7_Pin) == 1) pwm_A -= 1;
+        HAL_Delay(5);
+        Yuntai_Control();
         break;
     default:
         break;

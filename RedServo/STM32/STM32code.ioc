@@ -49,6 +49,7 @@ MxDb.Version=DB.6.0.60
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.EXTI0_IRQn=true\:1\:0\:true\:false\:true\:true\:true\:true
+NVIC.EXTI15_10_IRQn=true\:1\:0\:true\:false\:true\:true\:true\:true
 NVIC.EXTI1_IRQn=true\:1\:0\:true\:false\:true\:true\:true\:true
 NVIC.EXTI4_IRQn=true\:1\:0\:true\:false\:true\:true\:true\:true
 NVIC.EXTI9_5_IRQn=true\:1\:0\:true\:false\:true\:true\:true\:true

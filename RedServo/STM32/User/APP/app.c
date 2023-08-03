@@ -43,8 +43,8 @@ void App_Init(void)
 //题目1
 void Problem1(void){
         //执行一次
-        pwm_A =  1494;
-        pwm_B =  1796;
+        pwm_A =  Centre_A;
+        pwm_B =  Centre_B;
            
         Yuntaiz_A(pwm_A,1);   // 云台丝滑移动
         Yuntaiz_B(pwm_B,1);   // 云台丝滑移动
@@ -95,7 +95,7 @@ void App_Task(void)
     case 1:
         if(last_Flag != Problem_Flag)
         {
-            //Problem1();
+            Problem1();
             Buzzer_LongBeep();
             last_Flag = Problem_Flag;
         }
@@ -133,7 +133,7 @@ void App_Task(void)
         if (HAL_GPIO_ReadPin(KEY_6_GPIO_Port, KEY_6_Pin) == 1) pwm_A += 1;
         //右
         if (HAL_GPIO_ReadPin(KEY_7_GPIO_Port, KEY_7_Pin) == 1) pwm_A -= 1;
-        HAL_Delay(5);
+        HAL_Delay(1);
         Yuntai_Control();
         break;
     default:

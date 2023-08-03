@@ -25,8 +25,8 @@ extern uint16_t pwm_B ;
 extern uint8_t Problem_Flag;
 
 
-//设置A_B舵机的标志位
-extern uint8_t setA_B_Flag;
+//急停标志位
+extern uint8_t Stop_Flag;
 
 
 
@@ -47,7 +47,7 @@ void Menu_Refresh(void)
         {
             OLED_ShowString(40,0,"Serv",16);
             sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag);
-            sprintf((char *)str_buff2, "setA_B_Flag:%d",setA_B_Flag);
+            sprintf((char *)str_buff2, "Stop_Flag:%d",Stop_Flag);
             sprintf((char *)str_buff3, "pwm_A:%5d",pwm_A);
             sprintf((char *)str_buff4, "pwm_B:%5d",pwm_B);      
             break;

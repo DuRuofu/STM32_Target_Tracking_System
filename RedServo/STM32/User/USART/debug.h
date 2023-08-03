@@ -5,7 +5,7 @@
 #define __DEBUG_H
 
 
-#define DEBUG  // 定义 DEBUG 宏，用于控制调试输出
+#define DEBUG   // 定义 DEBUG 宏，用于控制调试输出
 #ifdef DEBUG
     // 如果 DEBUG 宏已定义，则定义以下宏用于调试输出
     #define DEBUG_printf(format, ...) printf(format "\r\n", ##__VA_ARGS__)

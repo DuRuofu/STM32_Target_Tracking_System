@@ -81,8 +81,10 @@ void Error_Handler(void);
 #define KEY_6_EXTI_IRQn EXTI9_5_IRQn
 #define KEY_7_Pin GPIO_PIN_10
 #define KEY_7_GPIO_Port GPIOB
+#define KEY_7_EXTI_IRQn EXTI15_10_IRQn
 #define KEY_8_Pin GPIO_PIN_11
 #define KEY_8_GPIO_Port GPIOB
+#define KEY_8_EXTI_IRQn EXTI15_10_IRQn
 #define Buzzer_Pin_Pin GPIO_PIN_12
 #define Buzzer_Pin_GPIO_Port GPIOB
 #define I2C_SCL_Pin GPIO_PIN_8

@@ -6,10 +6,12 @@
 
 #define KEY1_Pin KEY_1_Pin
 #define KEY2_Pin KEY_2_Pin
-
 #define KEY3_Pin KEY_3_Pin
 #define KEY4_Pin KEY_4_Pin
-
+#define KEY5_Pin KEY_5_Pin
+#define KEY6_Pin KEY_6_Pin
+#define KEY7_Pin KEY_7_Pin
+#define KEY8_Pin KEY_8_Pin
 
 
 #define DEBOUNCE_DELAY 250 // 设置消抖延时为200毫秒
@@ -22,8 +24,8 @@ extern uint8_t GUI_Menu;
 //题目标志位
 extern uint8_t Problem_Flag;
 
-//设置A_B舵机的标志位
-extern uint8_t setA_B_Flag =0;
+//急停标志位
+extern uint8_t Stop_Flag;
 
 // 初始位置  //舵机中值
 extern uint16_t pwm_A ;
@@ -113,6 +115,13 @@ void Key_7_Callback(void){
 
 //急停
 void Key_8_Callback(void){
+    if(Stop_Flag == 1)
+    {
+        Stop_Flag=0;
+    }
+    else{
+        Stop_Flag=1;
+    }
 
 }
 
@@ -133,16 +142,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     // 按键按下
     if(GPIO_Pin == KEY1_Pin)
     {
+        //printf("按键1");
         Debounce(GPIO_Pin, Key_1_Callback);
        
     }
     else if(GPIO_Pin == KEY2_Pin)
     {
+
         // 按键2按下的处理代码
         Debounce(GPIO_Pin, Key_2_Callback);
     }
     else if(GPIO_Pin == KEY3_Pin)
     {
+
         // 按键3按下的处理代码
         Debounce(GPIO_Pin, Key_3_Callback);
     }
@@ -151,25 +163,27 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         // 按键4按下的处理代码
         Debounce(GPIO_Pin, Key_4_Callback);
     }
-     else if(GPIO_Pin == KEY4_Pin)
+     else if(GPIO_Pin == KEY5_Pin)
     {
         // 按键5按下的处理代码
         Debounce(GPIO_Pin, Key_5_Callback);
     }
-     else if(GPIO_Pin == KEY4_Pin)
+     else if(GPIO_Pin == KEY6_Pin)
     {
         // 按键6按下的处理代码
         Debounce(GPIO_Pin, Key_6_Callback);
     }
-     else if(GPIO_Pin == KEY4_Pin)
+     else if(GPIO_Pin == KEY7_Pin)
     {
         // 按键7按下的处理代码
         Debounce(GPIO_Pin, Key_7_Callback);
     }
-     else if(GPIO_Pin == KEY4_Pin)
+     else if(GPIO_Pin == KEY8_Pin)
     {
+        DEBUG_printf("按键8");
         // 按键8按下的处理代码
         Debounce(GPIO_Pin, Key_8_Callback);
+        
     }
 }
 

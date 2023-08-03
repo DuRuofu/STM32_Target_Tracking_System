@@ -17,10 +17,13 @@ extern int32_t Servo_Ki = 0.8;            // 舵机积分系数
 extern int32_t Servo_Kd = 0;            // 舵机微分系数
 
 
-// 初始位置  //舵机中值
+// 实时位置  
 extern uint16_t pwm_A = 1450;
 extern uint16_t pwm_B = 1773;
 
+// 上一次控过的位置
+uint16_t pwm_A_last = 1500;
+uint16_t pwm_B_last = 1800;
 
 
 extern int8_t Position_error[2];
@@ -75,22 +78,21 @@ void Yuntai_PID()
 //云台A(左右)丝滑移动,两个参数分别为目标位置和移动延时
 void Yuntaiz_A(uint16_t pwm_d,int16_t Flow_Coefficient)
 {
-    static uint16_t pwm_A_last = 1500;
-
     if(pwm_d > pwm_A_last)
     {
-        while(pwm_A_last != pwm_d)
+        while(pwm_A_last != pwm_d+1)
         {
-            SERVO_PWMA_Set(pwm_A_last++ );
+            SERVO_PWMA_Set(++pwm_A_last );
             HAL_Delay(Flow_Coefficient);
         }
+        
         return;
     }
     else if(pwm_d < pwm_A_last)
     {
-        while(pwm_A_last != pwm_d)
+        while(pwm_A_last != pwm_d+1)
         {
-            SERVO_PWMA_Set(pwm_A_last-- );
+            SERVO_PWMA_Set(--pwm_A_last );
             HAL_Delay(Flow_Coefficient);
         }
         return;
@@ -98,31 +100,44 @@ void Yuntaiz_A(uint16_t pwm_d,int16_t Flow_Coefficient)
 }
 
 
-//云台B(上下)丝滑移动，两个参数分别为目标位置和移动延时
+
+// 云台B(上下)丝滑移动，两个参数分别为目标位置和移动延时
 void Yuntaiz_B(uint16_t pwm_d, int16_t Flow_Coefficient)
 {
-    static uint16_t pwm_B_last = 1800;
+
     printf("pwm_d:%d,pwm_A_last:%d\r\n",pwm_d,pwm_B_last);
     if(pwm_d > pwm_B_last)
     {
-        while(pwm_B_last != pwm_d)
+        while(pwm_B_last != pwm_d+1)
         {
-            SERVO_PWMB_Set(pwm_B_last++ );
+            SERVO_PWMB_Set(++pwm_B_last );
             HAL_Delay(Flow_Coefficient);
         }
         return;
     }
     else if(pwm_d < pwm_B_last)
     {
-        while(pwm_B_last != pwm_d)
+        while(pwm_B_last != pwm_d+1)
         {
-            SERVO_PWMB_Set(pwm_B_last-- );
+            SERVO_PWMB_Set(--pwm_B_last );
             HAL_Delay(Flow_Coefficient);
         }
         return;
     }
+}
+
+
+
+//走斜线
+// 云台B(上下)丝滑移动，三个参数分别为目标位置和移动延时
+void Yuntaiz_AB(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
+{
+    
+    
+    
 
 }
+
 
 
 //云台控制

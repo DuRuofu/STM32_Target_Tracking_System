@@ -7,16 +7,18 @@ extern uint8_t Problem_Flag = 0;
 
 
 //中心位置处参数
-extern uint16_t Centre_A = 1494;
-extern uint16_t Centre_B = 1796;
+extern uint16_t Centre_A = 1489;
+extern uint16_t Centre_B = 1574;
 
-// 舵机A（左右边框）
-extern uint16_t left_PWM = 1594;
-extern uint16_t right_PWM = 1389;
+// 舵机（左上位置）
+extern uint16_t left_PWM = 1638;
+extern uint16_t up_PWM =1424;
 
-// 舵机B （上下边框参数）
-extern uint16_t up_PWM = 1696;
-extern uint16_t down_PWM = 1891;
+
+
+// 舵机B （右下位置）
+extern uint16_t right_PWM = 1346;
+extern uint16_t down_PWM = 1722;
 
 
 extern uint16_t pwm_A ;
@@ -56,16 +58,22 @@ void Problem2(void){
         //Yuntai_Init();   // 复位
         //开始运转 A舵机负责左右  B舵机负责上下
         Yuntaiz_B(up_PWM,2);   //运动到最上方
-        HAL_Delay(2000);
+
         Yuntaiz_A(right_PWM,2);   //运动到最右方
-        HAL_Delay(2000);
+
         Yuntaiz_B(down_PWM,2);   //运动到最下方
-        HAL_Delay(2000);
+
         Yuntaiz_A(left_PWM,2);   //运动到最左方
-        HAL_Delay(2000);
+
         Yuntaiz_B(up_PWM,2);   //运动到最上方
-        HAL_Delay(2000);
+
         Yuntaiz_A(right_PWM,2);   //运动到最右方
+    
+        pwm_A =  Centre_A;
+        pwm_B =  Centre_B;
+           
+        Yuntaiz_A(pwm_A,1);   // 云台丝滑移动
+        Yuntaiz_B(pwm_B,1);   // 云台丝滑移动
 }
 
 
@@ -103,7 +111,7 @@ void App_Task(void)
     case 2:
         if(last_Flag != Problem_Flag)
         {
-            //Problem2();
+            Problem2();
             last_Flag = Problem_Flag;
         }
         break;

@@ -85,7 +85,7 @@ void Yuntai_PID()
 //云台A(左右)丝滑移动,两个参数分别为目标位置和移动延时
 void Yuntaiz_A_Move(uint16_t pwm_d,int16_t Flow_Coefficient)
 {
-    printf("a移动");
+
     // 计算每次移动的步长
     int16_t step_a = (pwm_d > pwm_A_last) ? 1 : -1;
     while (pwm_A_last != pwm_d)
@@ -101,7 +101,7 @@ void Yuntaiz_A_Move(uint16_t pwm_d,int16_t Flow_Coefficient)
 // 云台B(上下)丝滑移动，两个参数分别为目标位置和移动延时
 void Yuntaiz_B_Move(uint16_t pwm_d, int16_t Flow_Coefficient)
 {
-    printf("B移动");
+
     // 计算每次移动的步长
     int16_t step_b = (pwm_d > pwm_B_last) ? 1 : -1;
     while (pwm_B_last != pwm_d)
@@ -117,7 +117,7 @@ void Yuntaiz_B_Move(uint16_t pwm_d, int16_t Flow_Coefficient)
 // 云台B(上下)丝滑移动，三个参数分别为目标位置和移动延时
 void Yuntaiz_AB_Move(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
 {
-    printf("ab移动");
+
     // 计算每次移动的步长
     int16_t step_a = (pwm_a > pwm_A_last) ? 1 : -1;
     int16_t step_b = (pwm_b > pwm_B_last) ? 1 : -1;

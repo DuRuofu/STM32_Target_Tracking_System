@@ -1,3 +1,13 @@
+/*
+ * @Author: DuRuofu duruofu@qq.com
+ * @Date: 2023-08-02 12-02-17
+ * @LastEditors: DuRuofu
+ * @LastEditTime: 2023-08-03 15-28-12
+ * @FilePath: \Project\RedServo\STM32\User\KEY\key.c
+ * @Description: 键盘扫描
+ * Copyright (c) 2023 by duruofu@foxmail.com All Rights Reserved. 
+ */
+
 #include "key.h"
 #include "led.h"
 #include "gui.h"

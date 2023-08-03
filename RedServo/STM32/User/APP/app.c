@@ -1,3 +1,13 @@
+/*
+ * @Author: DuRuofu duruofu@qq.com
+ * @Date: 2023-08-02 12-02-17
+ * @LastEditors: DuRuofu
+ * @LastEditTime: 2023-08-03 15-28-42
+ * @FilePath: \Project\RedServo\STM32\User\APP\app.c
+ * @Description: 主程序入口，包含主循环和中断回调函数，以及一些全局变量的定义
+ * Copyright (c) 2023 by duruofu@foxmail.com All Rights Reserved. 
+ */
+
 #include "app.h"
 #include "Buzzer.h"
 #include "at24c02.h"

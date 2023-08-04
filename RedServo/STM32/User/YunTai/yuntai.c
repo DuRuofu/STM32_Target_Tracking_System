@@ -135,6 +135,7 @@ void Yuntaiz_AB_Move(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
 
 
 
+
 // A4靶纸开环循迹(水平摆放)
 void Yuntai_A4_Track(uint16_t pwm_a,uint16_t pwm_b, int16_t Flow_Coefficient)
 {
@@ -161,25 +162,68 @@ int abs(int num) {
 
 
 
+//// 云台B(上下)丝滑移动，三个参数分别为目标位置和移动延时（考虑斜率）
+//void Yuntaiz_AB_Move_2(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
+//{
+
+//    // 计算云台A和云台B的位置差
+//    int16_t diff_a = abs(pwm_a - pwm_A_last);
+//    int16_t diff_b = abs(pwm_b - pwm_B_last);
+
+//    // 计算移动次数
+//    int16_t num_steps = (diff_a > diff_b)?diff_a:diff_b;
+//    
+
+//    // 计算云台A和云台B每次移动的增量
+//    float increment_a = (float)(pwm_a - pwm_A_last) / num_steps;
+//    float increment_b = (float)(pwm_b - pwm_B_last) / num_steps;
+//    
+//    DEBUG_info ("yuntai","increment_a:%f,increment_b:%f",increment_a,increment_b);
+
+//    
+
+//    // 插值移动云台A和云台B，直到达到目标位置
+//    for (int16_t i = 0; i <= num_steps; i++)
+//    {
+//        // 计算当前位置
+//        uint16_t current_pwm_a = round(pwm_A_last + i * increment_a);
+//        uint16_t current_pwm_b = round(pwm_B_last + i * increment_b);
+
+//        // 设置云台A和云台B的位置
+//        SERVO_PWMA_Set(current_pwm_a);
+//        SERVO_PWMB_Set(current_pwm_b);
+
+//        // 延时一段时间
+//        HAL_Delay(Flow_Coefficient);
+//    }
+
+//    // 更新云台A和云台B的最新位置
+//    pwm_A_last = pwm_a;
+//    pwm_B_last = pwm_b;
+//}
+
+
 // 云台B(上下)丝滑移动，三个参数分别为目标位置和移动延时（考虑斜率）
 void Yuntaiz_AB_Move_2(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
 {
-
     // 计算云台A和云台B的位置差
     int16_t diff_a = abs(pwm_a - pwm_A_last);
     int16_t diff_b = abs(pwm_b - pwm_B_last);
 
     // 计算移动次数
-    int16_t num_steps = (diff_a > diff_b)?diff_a:diff_b;
-    
+    int16_t num_steps = (diff_a > diff_b) ? diff_a : diff_b;
+
+    if (num_steps == 0)
+        return;  // 无需移动，直接返回
 
     // 计算云台A和云台B每次移动的增量
     float increment_a = (float)(pwm_a - pwm_A_last) / num_steps;
     float increment_b = (float)(pwm_b - pwm_B_last) / num_steps;
-    
-    DEBUG_info ("yuntai","increment_a:%f,increment_b:%f",increment_a,increment_b);
 
-    
+    DEBUG_info("yuntai", "increment_a:%f,increment_b:%f", increment_a, increment_b);
+
+    // 计算延时时间
+    uint32_t delay_time = Flow_Coefficient / num_steps;
 
     // 插值移动云台A和云台B，直到达到目标位置
     for (int16_t i = 0; i <= num_steps; i++)
@@ -193,13 +237,14 @@ void Yuntaiz_AB_Move_2(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
         SERVO_PWMB_Set(current_pwm_b);
 
         // 延时一段时间
-        HAL_Delay(Flow_Coefficient);
+        HAL_Delay(delay_time);
     }
 
     // 更新云台A和云台B的最新位置
     pwm_A_last = pwm_a;
     pwm_B_last = pwm_b;
 }
+
 
 void Yuntaiz_AB_Move_3(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
 {

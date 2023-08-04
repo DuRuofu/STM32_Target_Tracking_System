@@ -12,7 +12,7 @@
 #include "Buzzer.h"
 #include "at24c02.h"
 #include "string.h"
-
+#include <math.h>
 
 //题目选择标志位
 extern uint8_t Problem_Flag = 0;
@@ -105,6 +105,7 @@ void Update_Parameters(void)
     K210_Width = K210_right - K210_left;
     K210_Height= K210_down - K210_up;
     DEBUG_info("读取配置","配置信息读取完毕!! \r\n");
+    Buzzer_ShortBeep();
 }
 
 //校准模式(待优化)
@@ -227,6 +228,7 @@ void Problem2(void){
 //题目3
 void Problem3(void){
     //A4巡线
+    Yuntaiz_AB_Move(left_PWM,up_PWM,5);//斜着移动到最左上角  
     uint16_t  A_x,A_y,B_x,B_y,C_x,C_y,D_x,D_y;
     //向K210请求4个点的坐标
     uint8_t data_str[255]={0};
@@ -286,26 +288,16 @@ void Problem3(void){
     //运动到A点
     Yuntaiz_AB_Move(A_x,A_y,10);  
         
-//    //运动到A点
-//    Yuntaiz_AB_Move_3(A_x,A_y,10);  
-//    //运动到B点
-//    Yuntaiz_AB_Move_3(B_x,B_y,10);
-//    //运动到C
-//    Yuntaiz_AB_Move_3(C_x,C_y,10);
-//    //运动到D点
-//    Yuntaiz_AB_Move_3(D_x,D_y,10);
-//    //运动到A点
-//    Yuntaiz_AB_Move_3(A_x,A_y,10);  
-    //运动到中间
-    //Yuntaiz_AB_Move(Centre_A,Centre_B,10);   //运动到中间
+    //Yuntai_A4_Track();
 }
 
 //题目4
 void Problem4(void){
+    Yuntaiz_AB_Move(left_PWM,up_PWM,5);//斜着移动到最左上角  
     uint16_t  A_x,A_y,B_x,B_y,C_x,C_y,D_x,D_y;
     //向K210请求4个点的坐标
     uint8_t data_str[255]={0};
-    sprintf((char*)data_str, "id:%d,x:%d,y:%d",4,0,0);
+    sprintf((char*)data_str, "id:%d,x:%d,y:%d",6,0,0);
     Usart2_SendString(data_str);
     while(K210_Flag == 0)HAL_Delay(10);  //等待K210回应
     Buzzer_ShortBeep();
@@ -325,34 +317,40 @@ void Problem4(void){
     float kb = (float)Screen_Height/(float)K210_Height;
     
     //计算A点坐标
-    A_x = left_PWM -(A_x - K210_left)*ka;
-    A_y = (A_y - K210_up)*kb + up_PWM;
+    A_x = left_PWM -round((A_x - K210_left)*ka);
+    A_y = round((A_y - K210_up))*kb + up_PWM;
     
 
     //计算B点坐标
-    B_x = left_PWM- (B_x - K210_left)*ka;
-    B_y = (B_y - K210_up)*kb + up_PWM;
+    B_x = left_PWM- round((B_x - K210_left)*ka);
+    B_y = round((B_y - K210_up))*kb + up_PWM;
      
      
     //计算C点坐标
-    C_x = left_PWM- (C_x - K210_left)*ka ;
-    C_y = (C_y - K210_up)*kb + up_PWM;
+    C_x = left_PWM- round((C_x - K210_left)*ka);
+    C_y = round((C_y - K210_up))*kb + up_PWM;
 
     //计算D点坐标
-    D_x = left_PWM-  (D_x - K210_left)*ka ;
-    D_y = (D_y - K210_up)*kb + up_PWM;
+    D_x = left_PWM-  round((D_x - K210_left)*ka) ;
+    D_y = round((D_y - K210_up))*kb + up_PWM;
     
    
     //运动到A点
-    Yuntaiz_AB_Move_2(A_x,A_y,20);  
+    Yuntaiz_AB_Move_2(A_x,A_y,200);  
+    HAL_Delay(500);
     //运动到B点
-    Yuntaiz_AB_Move_2(B_x,B_y,20);
+    Yuntaiz_AB_Move_2(B_x,B_y,200);
+    HAL_Delay(500);
     //运动到C点
-    Yuntaiz_AB_Move_2(C_x,C_y,20);
+    Yuntaiz_AB_Move_2(C_x,C_y,200);
+    HAL_Delay(500);
     //运动到D点
-    Yuntaiz_AB_Move_2(D_x,D_y,20);
+    Yuntaiz_AB_Move_2(D_x,D_y,200);
+    HAL_Delay(500);
     //运动到A点
-    Yuntaiz_AB_Move_2(A_x,A_y,20);  
+    Yuntaiz_AB_Move_2(A_x,A_y,200);  
+    
+
 }
 
 

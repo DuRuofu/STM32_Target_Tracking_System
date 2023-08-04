@@ -1,6 +1,6 @@
 #include "debug.h"
 #include "string.h"
-
+#include "yuntai.h"
 #define RXBUFFERSIZE  256     //最大接收字节数
 
 //定义串口句柄,使用串口1
@@ -10,6 +10,18 @@
 uint8_t RxBuffer[RXBUFFERSIZE];
 uint8_t Uart_RxBuffer;      //接收中断缓冲
 uint8_t Uart_Rx_Cnt = 0;     //接收缓冲计数
+
+uint16_t data[4]={0};
+
+
+  // 初始实时位置 
+extern uint16_t pwm_A ;
+extern uint16_t pwm_B ;
+
+//中心位置处参数
+extern uint16_t Centre_A ;
+extern uint16_t Centre_B ;
+
 
 void Debug_Init(void)
 {
@@ -39,31 +51,37 @@ void UART1_RxCpltCallback(UART_HandleTypeDef *huart)
 	}
 	else
 	{
-		RxBuffer[Uart_Rx_Cnt++] = Uart_RxBuffer;   
-	
-    //单字符判断
+		RxBuffer[Uart_Rx_Cnt++] = Uart_RxBuffer;
+        //单字符判断
 		if(Uart_RxBuffer == '1')//当发送1时，翻转电平
 		{
-      DEBUG_printf("发送1");
+            printf("1");
+            Centre_A = pwm_A;
+            Centre_B = pwm_B;
 		}
 		else if(Uart_RxBuffer == '2')//当发送2时，翻转电平
 		{
-      DEBUG_printf("发送2");
+        DEBUG_printf("发送2");
 		}
 		else if(Uart_RxBuffer == '3')//当发送3时，翻转电平
 		{
-      DEBUG_printf("发送3");
+        DEBUG_printf("发送3");
 		}
 		else if(Uart_RxBuffer == '4')//当发送4时，翻转电平
 		{
-      DEBUG_printf("发送4");
+        DEBUG_printf("发送4");
 		}
-		
 		if((RxBuffer[Uart_Rx_Cnt-1] == 0x0A)&&(RxBuffer[Uart_Rx_Cnt-2] == 0x0D)) //判断结束位
 		{
       //这里可以写多字节消息的判断
-			HAL_UART_Transmit(&UART_HANDLE, (uint8_t *)&RxBuffer, Uart_Rx_Cnt,0xFFFF); //将收到的信息发送出去
-      //while(HAL_UART_GetState(&UART_HANDLE) == HAL_UART_STATE_BUSY_TX);//检测UART发送结束
+      //单字节消息0
+
+      // 解析k210数据
+      //sscanf((const char *)RxBuffer, "%d,%d\r\n", &data[0], &data[1]);
+      //pwm_A =data[0];
+      //pwm_B =data[1];
+      //printf("%d,%d",Position_error[0],Position_error[1]);
+
 
       //复位
 			Uart_Rx_Cnt = 0;
@@ -72,7 +90,6 @@ void UART1_RxCpltCallback(UART_HandleTypeDef *huart)
 	}
 	
 	HAL_UART_Receive_IT(&UART_HANDLE, (uint8_t *)&Uart_RxBuffer, 1);   //因为接收中断使用了一次即关闭，所以在最后加入这行代码即可实现无限使用
-
 }
 
 //串口1错误回调函数(主要用来清除溢出中断)

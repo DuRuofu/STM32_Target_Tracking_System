@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/APP;../User/Control;../User/KEY;../User/LED;../User/OLED;../User/OLED/OLEDGUI;../User/PWM;../User/USART;../User/YunTai;../User/Buzzer</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../User/APP;../User/Control;../User/KEY;../User/LED;../User/OLED;../User/OLED/OLEDGUI;../User/PWM;../User/USART;../User/YunTai;../User/Buzzer;../User/AT24C02</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

@@ -13,6 +13,7 @@ void  USART2_Init(void);
 void UART2_RxCpltCallback(UART_HandleTypeDef *huart);
 void UART2_ErrorCallback(UART_HandleTypeDef *huart);
 void Usart2_SendString(uint8_t *str);
+
 #endif // !__USART2_2_H
 
 

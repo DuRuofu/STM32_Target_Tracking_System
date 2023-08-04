@@ -23,6 +23,9 @@
 #define PWM2_D 20000
 
 
+//急停标志位
+extern uint8_t Stop_Flag=0;
+
 //PWM初始化
 void PWM_Init(void)
 {
@@ -36,11 +39,11 @@ void PWM_Init(void)
 } 
 
 
-
 //--------------------舵机PWM调节--------------------
 
 void SERVO_PWMA_Set(uint16_t pwm_d)
 {
+    if (Stop_Flag==1)return;
     if(pwm_d > PWM2_D)
     {
         pwm_d = PWM2_D;
@@ -51,6 +54,7 @@ void SERVO_PWMA_Set(uint16_t pwm_d)
 
 void SERVO_PWMB_Set(uint16_t pwm_d)
 {
+    if (Stop_Flag==1)return;
     if(pwm_d > PWM2_D)
     {
         pwm_d = PWM2_D;

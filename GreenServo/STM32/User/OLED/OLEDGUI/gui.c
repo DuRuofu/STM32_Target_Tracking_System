@@ -2,8 +2,8 @@
  * @Author: DuRuofu duruofu@qq.com
  * @Date: 2023-07-27 09-48-56
  * @LastEditors: DuRuofu
- * @LastEditTime: 2023-07-29 12-30-15
- * @FilePath: \MDK-ARMd:\duruofu\Project\Avoidance_Car\project\STM32ZET6\Users\OLED\OLEDGUI\gui.c
+ * @LastEditTime: 2023-08-02 17-11-18
+ * @FilePath: \Project\RedServo\STM32\User\OLED\OLEDGUI\gui.c
  * @Description: 0.96OLED配合的GUI简单GUI界面
  * Copyright (c) 2023 by duruofu@foxmail.com All Rights Reserved. 
  */
@@ -17,11 +17,20 @@ extern uint8_t GUI_Menu = 0;
 extern int32_t Servo_Kp ;            // 舵机比例系数
 extern int32_t Servo_Ki ;            // 舵机积分系数
 extern int32_t Servo_Kd ;            // 舵机微分系数
+
 extern uint16_t pwm_A ;
 extern uint16_t pwm_B ;
 
+//题目标志位
+extern uint8_t Problem_Flag;
 
 
+//急停标志位
+extern uint8_t Stop_Flag;
+
+
+//消息接收标志位
+extern uint8_t K210_Flag;
 
 void Menu_Refresh(void)
 {
@@ -37,18 +46,22 @@ void Menu_Refresh(void)
    {
         case 0:
         {
-            OLED_ShowString(40,0,"Green  ",16);
-            sprintf((char *)str_buff1, "GUI_Menu:%5d",GUI_Menu); 
-            
+            OLED_ShowString(40,0,"Serv",16);
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag);
+            sprintf((char *)str_buff2, "Stop_Flag:%d",Stop_Flag);
+            sprintf((char *)str_buff4, "K210_Flag:%d",K210_Flag);
+            sprintf((char *)str_buff5, "pwm_A:%5d",pwm_A);
+            sprintf((char *)str_buff6, "pwm_B:%5d",pwm_B);      
             break;
         }
         case 1:
         {
             OLED_ShowString(40,0,"Motor",16);
-            sprintf((char *)str_buff1, "GUI_Menu:%5d",GUI_Menu);
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag);
             sprintf((char *)str_buff2, "Servo_Kp:%3.2f",(float)Servo_Kp);
             sprintf((char *)str_buff3, "Servo_Kp:%3.2f",(float)Servo_Ki);
             sprintf((char *)str_buff4, "Servo_Kp:%3.2f",(float)Servo_Kd);
+            sprintf((char *)str_buff5, "K210_Flag:%3.2f",(float)K210_Flag);
             sprintf((char *)str_buff5, "pwm_A:%5d",pwm_A);
             sprintf((char *)str_buff6, "pwm_B:%5d",pwm_B);
             break;
@@ -56,7 +69,7 @@ void Menu_Refresh(void)
         case 2:
         {
             OLED_ShowString(40,0,"PID  ",16);
-            sprintf((char *)str_buff1, "GUI_Menu:%5d",GUI_Menu); 
+            sprintf((char *)str_buff1, "Problem_Flag:%1d",Problem_Flag); 
 
             break;
         }

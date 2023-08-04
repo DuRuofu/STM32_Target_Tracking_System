@@ -67,13 +67,7 @@ void Error_Handler(void);
 #define KEY_2_Pin GPIO_PIN_1
 #define KEY_2_GPIO_Port GPIOA
 #define KEY_2_EXTI_IRQn EXTI1_IRQn
-#define KEY_3_Pin GPIO_PIN_4
-#define KEY_3_GPIO_Port GPIOA
-#define KEY_3_EXTI_IRQn EXTI4_IRQn
-#define KEY_4_Pin GPIO_PIN_5
-#define KEY_4_GPIO_Port GPIOA
-#define KEY_4_EXTI_IRQn EXTI9_5_IRQn
-#define Buzzer_Pin_Pin GPIO_PIN_11
+#define Buzzer_Pin_Pin GPIO_PIN_12
 #define Buzzer_Pin_GPIO_Port GPIOB
 #define I2C_SCL_Pin GPIO_PIN_8
 #define I2C_SCL_GPIO_Port GPIOB

@@ -13,6 +13,8 @@
 #include "gui.h"
 #include "yuntai.h"
 #include "Buzzer.h"
+#include "app.h"
+
 
 #define KEY1_Pin KEY_1_Pin
 #define KEY2_Pin KEY_2_Pin
@@ -33,6 +35,9 @@ extern uint8_t GUI_Menu;
 
 //题目标志位
 extern uint8_t Problem_Flag;
+
+//校准确认标志位
+extern uint8_t Calibration_Flag;
 
 //急停标志位
 extern uint8_t Stop_Flag;
@@ -56,35 +61,31 @@ void Key_Init(void)
 //题目切换按钮
 void Key_1_Callback(void)
 {
-
-        //OLED_Clear();
-        // // 按键1按下的处理代码
-        // if (GUI_Menu < 3)
-        // {
-        //     GUI_Menu++;
-        // }
-        // else
-        // {
-        //     GUI_Menu = 0;
-        // }
-
-        if(Problem_Flag == 9 )return;
+        if(Problem_Flag == 9)
+        {
+            if(Calibration_Flag == 0)
+            {
+                Calibration_Flag=1;
+            }
+        }
         //更换题目
-        if (Problem_Flag < 4)
+        else if(Problem_Flag < 4)
         {
             Problem_Flag++;
         }
-        else
+        else 
         {
             Problem_Flag = 0;
         }
         
-    }
+}
 
-    
-    
+
+
+// 复位按钮
 void Key_2_Callback(void)
 {
+    Problem1();
 
 }
 

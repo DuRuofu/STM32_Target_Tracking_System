@@ -74,9 +74,9 @@ void UART1_RxCpltCallback(UART_HandleTypeDef *huart)
 		if((RxBuffer[Uart_Rx_Cnt-1] == 0x0A)&&(RxBuffer[Uart_Rx_Cnt-2] == 0x0D)) //判断结束位
 		{
       //这里可以写多字节消息的判断
-                //单字节消息0
+      //单字节消息0
 
-     // 解析k210数据
+      // 解析k210数据
       //sscanf((const char *)RxBuffer, "%d,%d\r\n", &data[0], &data[1]);
       //pwm_A =data[0];
       //pwm_B =data[1];

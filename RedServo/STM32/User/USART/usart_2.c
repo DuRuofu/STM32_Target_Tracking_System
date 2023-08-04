@@ -2,8 +2,8 @@
  * @Author: DuRuofu duruofu@qq.com
  * @Date: 2023-07-13 17-52-31
  * @LastEditors: DuRuofu
- * @LastEditTime: 2023-07-16 07-32-56
- * @FilePath: \MDK-ARMd:\duruofu\Project\Avoidance_Car\project\STM32ZET6\Users\USART\usart_2.c
+ * @LastEditTime: 2023-08-04 06-57-42
+ * @FilePath: \Project\RedServo\STM32\User\USART\usart_2.c
  * @Description: 串口2的驱动代码(用于调试PID)
  * Copyright (c) 2023 by duruofu@foxmail.com All Rights Reserved. 
  */
@@ -26,6 +26,11 @@ uint8_t Uart_Rx_Cnt_2 = 0;     //接收缓冲计数
 
 extern int8_t Position_error[2]={0};
 
+//--------------------------K210参考系---------------------
+//消息接收标志位
+extern uint8_t K210_Flag;
+//接收缓冲区
+extern uint16_t K210_data[8]={0};
 void USART2_Init(void)
 {
   /*串口硬件配置代码(使用cudeMX则不需要此部分)
@@ -61,10 +66,15 @@ void UART2_RxCpltCallback(UART_HandleTypeDef *huart)
 		if((RxBuffer_2[Uart_Rx_Cnt_2-1] == 0x0A)&&(RxBuffer_2[Uart_Rx_Cnt_2-2] == 0x0D)) //判断结束位
 		{
        
-      //这里可以写多字节消息的判断
-
-      // 解析k210数据
-      sscanf((const char *)RxBuffer_2, "%d,%d\r\n", &Position_error[0], &Position_error[1]);
+        // 这里可以写多字节消息的判断
+        
+        //Usart2_SendString(RxBuffer_2);
+        // 解析k210数据
+        sscanf((const char *)RxBuffer_2, "%d,%d,%d,%d,%d,%d,%d,%d\r\n", &K210_data[0], &K210_data[1],&K210_data[2],&K210_data[3],&K210_data[4], &K210_data[5],&K210_data[6],&K210_data[7]);
+        DEBUG_info("K210","收到信息:%d,%d,%d,%d,%d,%d,%d,%d\r\n",K210_data[0], K210_data[1],K210_data[2],K210_data[3],K210_data[4], K210_data[5],K210_data[6],K210_data[7]);
+        K210_Flag = 1;
+        //DEBUG_info("K210","K210_Flag:%d\r\n",K210_Flag);
+      
       //printf("%d,%d",Position_error[0],Position_error[1]);
 
       //复位

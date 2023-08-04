@@ -18,3 +18,4 @@ bool I2C_Write(uint8_t devAdd, uint8_t addr, uint8_t data[], int len);
 bool I2C_Read(uint8_t devAdd, uint8_t nAddr, uint8_t data[], uint8_t len);
 
 #endif /* I2C_LIBRARY_H */
+

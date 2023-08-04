@@ -17,6 +17,7 @@ void App_Task(void);
 void MPU6050_Data_Read(void);
 void Motor_Speed_Read(void);
 void Car_PID_Ctrl(void);
-
-
+void Update_Parameters(void);
+//У׼ģʽ
+void System_Calibration(void);
 #endif // !__APP_H

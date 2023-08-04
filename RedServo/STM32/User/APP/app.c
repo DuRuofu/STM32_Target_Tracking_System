@@ -105,7 +105,7 @@ void Update_Parameters(void)
     K210_Width = K210_right - K210_left;
     K210_Height= K210_down - K210_up;
     DEBUG_info("读取配置","配置信息读取完毕!! \r\n");
-    Buzzer_ShortBeep();
+    Buzzer_LongBeep();
 }
 
 //校准模式(待优化)
@@ -257,24 +257,23 @@ void Problem3(void){
 
     DEBUG_info ("题目3","A_x:%d,K210_left:%d",A_x,K210_left);
     //计算A点坐标
-    A_x = left_PWM -(A_x - K210_left)*ka;
-    A_y = (A_y - K210_up)*kb + up_PWM;
+    //计算A点坐标
+    A_x = left_PWM -round((A_x - K210_left)*ka);
+    A_y = round((A_y - K210_up))*kb + up_PWM;
     
-    DEBUG_info ("题目3","A_x:%d,A_y:%d",A_x,A_y);
 
     //计算B点坐标
-    B_x = left_PWM- (B_x - K210_left)*ka;
-    B_y = (B_y - K210_up)*kb + up_PWM;
-    DEBUG_info ("题目3","B_x:%d,B_y:%d",B_x,B_y);
+    B_x = left_PWM- round((B_x - K210_left)*ka);
+    B_y = round((B_y - K210_up))*kb + up_PWM;
      
      
     //计算C点坐标
-    C_x = left_PWM- (C_x - K210_left)*ka ;
-    C_y = (C_y - K210_up)*kb + up_PWM;
+    C_x = left_PWM- round((C_x - K210_left)*ka);
+    C_y = round((C_y - K210_up))*kb + up_PWM;
 
     //计算D点坐标
-    D_x = left_PWM-  (D_x - K210_left)*ka ;
-    D_y = (D_y - K210_up)*kb + up_PWM;
+    D_x = left_PWM-  round((D_x - K210_left)*ka) ;
+    D_y = round((D_y - K210_up))*kb + up_PWM;
 
 
     //运动到A点
@@ -334,21 +333,22 @@ void Problem4(void){
     D_x = left_PWM-  round((D_x - K210_left)*ka) ;
     D_y = round((D_y - K210_up))*kb + up_PWM;
     
-   
+    
+    int time =500;
     //运动到A点
-    Yuntaiz_AB_Move_2(A_x,A_y,200);  
-    HAL_Delay(500);
+    Yuntaiz_AB_Move_2(A_x,A_y,300);  
+    HAL_Delay(100);
     //运动到B点
-    Yuntaiz_AB_Move_2(B_x,B_y,200);
-    HAL_Delay(500);
+    Yuntaiz_AB_Move_2(B_x,B_y,time);
+    HAL_Delay(100);
     //运动到C点
-    Yuntaiz_AB_Move_2(C_x,C_y,200);
-    HAL_Delay(500);
+    Yuntaiz_AB_Move_2(C_x,C_y,time);
+    HAL_Delay(100);
     //运动到D点
-    Yuntaiz_AB_Move_2(D_x,D_y,200);
-    HAL_Delay(500);
+    Yuntaiz_AB_Move_2(D_x,D_y,time);
+    HAL_Delay(100);
     //运动到A点
-    Yuntaiz_AB_Move_2(A_x,A_y,200);  
+    Yuntaiz_AB_Move_2(A_x,A_y,time);  
     
 
 }
@@ -374,14 +374,14 @@ void App_Task(void)
     case 2:
         if(last_Flag != Problem_Flag)
         {
-            //Problem2();
+            Problem2();
             last_Flag = Problem_Flag;
         }
         break;
     case 3:
         if(last_Flag != Problem_Flag)
         {
-            //Problem3();
+            Problem3();
             last_Flag = Problem_Flag;
         }
         break;

@@ -24,6 +24,10 @@
 #define KEY6_Pin KEY_6_Pin
 #define KEY7_Pin KEY_7_Pin
 #define KEY8_Pin KEY_8_Pin
+#define KEY9_Pin KEY_9_Pin
+#define KEY10_Pin KEY_10_Pin
+#define KEY11_Pin KEY_11_Pin
+
 
 
 #define DEBOUNCE_DELAY 250 // 设置消抖延时为200毫秒
@@ -82,10 +86,16 @@ void Key_1_Callback(void)
 
 
 
-// 复位按钮
+// 急停按键
 void Key_2_Callback(void)
 {
-    Problem1();
+    if(Stop_Flag == 1)
+    {
+        Stop_Flag=0;
+    }
+    else{
+        Stop_Flag=1;
+    }
 
 }
 
@@ -124,16 +134,44 @@ void Key_7_Callback(void){
 
 }
 
-//急停
+//题目1 //复位按键
 void Key_8_Callback(void){
-    if(Stop_Flag == 1)
-    {
-        Stop_Flag=0;
-    }
-    else{
-        Stop_Flag=1;
-    }
+        Problem1();
+}
 
+
+void Key_9_Callback(void){
+    //更换题目
+    if(Problem_Flag == 2)
+    {
+        Problem_Flag =0;
+    }
+    else 
+    {
+        Problem_Flag = 2;
+    }
+}
+void Key_10_Callback(void){
+    //更换题目
+    if(Problem_Flag == 3)
+    {
+        Problem_Flag =0;
+    }
+    else 
+    {
+        Problem_Flag = 3;
+    }
+}
+void Key_11_Callback(void){
+    //更换题目
+    if(Problem_Flag == 4)
+    {
+        Problem_Flag =0;
+    }
+    else 
+    {
+        Problem_Flag = 4;
+    }
 }
 
 //
@@ -194,6 +232,21 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         DEBUG_printf("按键8");
         // 按键8按下的处理代码
         Debounce(GPIO_Pin, Key_8_Callback);
+        
+    }
+     else if(GPIO_Pin == KEY9_Pin)
+    {
+        Debounce(GPIO_Pin, Key_9_Callback);
+        
+    }
+     else if(GPIO_Pin == KEY10_Pin)
+    {
+        Debounce(GPIO_Pin, Key_10_Callback);
+        
+    }
+     else if(GPIO_Pin == KEY11_Pin)
+    {
+        Debounce(GPIO_Pin, Key_11_Callback);
         
     }
 }

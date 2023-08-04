@@ -211,7 +211,8 @@ void Yuntaiz_AB_Move_2(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
     int16_t diff_b = abs(pwm_b - pwm_B_last);
 
     // 计算移动次数
-    int16_t num_steps = (diff_a > diff_b) ? diff_a : diff_b;
+    int16_t num_steps  = (diff_a > diff_b) ? diff_a : diff_b;
+    num_steps = num_steps* 3;
 
     if (num_steps == 0)
         return;  // 无需移动，直接返回
@@ -246,14 +247,17 @@ void Yuntaiz_AB_Move_2(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
 }
 
 
+
+
+
 void Yuntaiz_AB_Move_3(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
 {
     // 定义云台A和云台B的最新位置变量
     uint16_t pwm_A_last = 0;
     uint16_t pwm_B_last = 0;
     // 计算云台A和云台B的位置差
-    int16_t diff_a = abs(pwm_a - pwm_A_last);
-    int16_t diff_b = abs(pwm_b - pwm_B_last);
+    int16_t diff_a = abs(pwm_a - pwm_A_last); //水平方向
+    int16_t diff_b = abs(pwm_b - pwm_B_last); //竖直方向
 
     // 计算移动次数
     int16_t num_steps = (diff_a > diff_b) ? diff_a : diff_b;
@@ -265,6 +269,7 @@ void Yuntaiz_AB_Move_3(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
     // 计算加速度和减速度阶段的增量
     float accel_increment_a = (float)(pwm_a - pwm_A_last) / accel_steps;
     float accel_increment_b = (float)(pwm_b - pwm_B_last) / accel_steps;
+    
     float decel_increment_a = (float)(pwm_a - pwm_A_last - accel_increment_a * accel_steps) / decel_steps;
     float decel_increment_b = (float)(pwm_b - pwm_B_last - accel_increment_b * accel_steps) / decel_steps;
 

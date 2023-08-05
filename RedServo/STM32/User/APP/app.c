@@ -334,7 +334,7 @@ void Problem4(void){
     D_y = round((D_y - K210_up))*kb + up_PWM;
     
     
-    int time =500;
+    int time =400;
     //运动到A点
     Yuntaiz_AB_Move_2(A_x,A_y,300);  
     HAL_Delay(100);
@@ -364,6 +364,8 @@ void App_Task(void)
     Menu_Refresh(); // 刷新菜单
     switch (Problem_Flag)
     {
+    case 0:
+            last_Flag = Problem_Flag;
     case 1:
         if(last_Flag != Problem_Flag)
         {
@@ -372,7 +374,7 @@ void App_Task(void)
         }
         break;
     case 2:
-        if(last_Flag != Problem_Flag)
+        if(last_Flag != Problem_Flag) 
         {
             Problem2();
             last_Flag = Problem_Flag;

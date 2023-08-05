@@ -39,24 +39,22 @@ void Yuntai_Control(void)
 }
 
 //
-void Yuntai_PID()
+void Yuntai_PID(int16_t x_err,int16_t y_err)
 {
     static int16_t L_x_err=0,L_L_x_err=0,L_y_err=0,L_L_y_err=0;
 
-    int8_t x_err = Position_error[0];
-    int8_t y_err = Position_error[1];
     printf("x_err:%d,y_err:%d\r\n",x_err,y_err);
-
+    printf("pwm_A:%d,pwm_B:%d\r\n",pwm_A,pwm_B);
     // 死区限制，防止抖动
-    if (x_err > -8 && x_err < 8) x_err = 0;
-    if (y_err > -8 && y_err < 8) y_err = 0;
+//    if (x_err > -1 && x_err < 1) x_err = 0;
+//    if (y_err > -1 && y_err < 1) y_err = 0;
 
 
     // 进行PID计算
     // -0.2 -0.8 -0.1
     // 0.2 0.8 0.1
-    pwm_A += -0 * (x_err-L_x_err)+ (-0.7)*x_err+ (40.15) * (x_err - 2 * L_x_err + L_L_x_err);
-    pwm_B += 0.1 * (y_err-L_y_err) + (0.7)*y_err + 0.15* (y_err - 2 * L_y_err + L_L_y_err);
+    pwm_A += 0.6 * (x_err-L_x_err)+ (-0.4)*x_err + (-0.1) * (x_err - 2 * L_x_err + L_L_x_err);
+    pwm_B += 0.6 * (y_err-L_y_err)+(-0.4)*y_err + 0.1* (y_err - 2 * L_y_err + L_L_y_err);
     
     //保存误差值
     L_x_err = x_err;
@@ -245,8 +243,6 @@ void Yuntaiz_AB_Move_2(uint16_t pwm_a, uint16_t pwm_b, int16_t Flow_Coefficient)
     pwm_A_last = pwm_a;
     pwm_B_last = pwm_b;
 }
-
-
 
 
 

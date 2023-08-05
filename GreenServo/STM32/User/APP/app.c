@@ -66,7 +66,11 @@ void App_Init(void)
     //Yuntai_Control();        // 云台初始化
     HAL_TIM_Base_Start_IT(&htim4); // 启动定时器4 开始数据采样,执行控制
     //Yuntaiz_B_Move(Centre_B,0);
-    SearchTheScreen();
+    //SearchTheScreen();
+        pwm_A =1500;
+    pwm_B =1628;
+    Yuntaiz_A_Move(pwm_A,0);
+    Yuntaiz_B_Move(pwm_B,0);
 }
 
 
@@ -74,67 +78,99 @@ void App_Init(void)
 //上电搜索屏幕
 void SearchTheScreen(void)
 {
-    Yuntaiz_A_Move(1500,0);
-    Yuntaiz_B_Move(1500,0);
-    
+    Yuntaiz_A_Move(2000,0);
+    pwm_B =1628;
+    Yuntaiz_B_Move(pwm_B,0);
     DEBUG_info("搜索屏幕","开始搜索屏幕 \r\n");
     uint8_t data_str[255]={0};
     //通知K210传递参数
     sprintf((char*)data_str, "id:%d,x:%d,y:%d",1,0,0);
     Usart2_SendString(data_str);
-    for(uint16_t i = 1000;i<=2500;i=i+100)
+
+
+    for(;;)
     {
-        Yuntaiz_A_Move(i,0);
-        HAL_Delay(150);
-//        if(K210_Flag == 0)
-//        {
-//            DEBUG_info("搜索屏幕","搜索到屏幕!\r\n");
-//            Buzzer_LongBeep();
-//            K210_Flag = 0;
-//            return;
-//        }
+            for(pwm_A = 2000;pwm_A>=1000;pwm_A=pwm_A-100)
+        {
+            Yuntaiz_A_Move(pwm_A,0);
+            HAL_Delay(100);
+            if(K210_Flag == 1)
+            {
+                DEBUG_info("搜索屏幕","搜索到屏幕!\r\n");
+                    printf("pwm_A:%d,pwm_B:%d\r\n",pwm_A,pwm_B);
+                Buzzer_LongBeep();
+                K210_Flag = 0;
+                return;
+            }
+        }
+            for(pwm_A = 1000;pwm_A<=2000;pwm_A=pwm_A+100)
+        {
+            Yuntaiz_A_Move(pwm_A,0);
+            HAL_Delay(100);
+            if(K210_Flag == 1)
+            {
+                DEBUG_info("搜索屏幕","搜索到屏幕!\r\n");
+                    printf("pwm_A:%d,pwm_B:%d\r\n",pwm_A,pwm_B);
+                Buzzer_LongBeep();
+                K210_Flag = 0;
+                return;
+            }
+        }
     }
-    
-    DEBUG_info("读取配置","未搜索到屏幕!! \r\n");
-    for(uint16_t i = 2000;i>=500;i=i-100)
-    {
-        Yuntaiz_A_Move(i,0);
-        HAL_Delay(150);
-//        if(K210_Flag == 0)
-//        {
-//            DEBUG_info("搜索屏幕","搜索到屏幕!\r\n");
-//            Buzzer_LongBeep();
-//            K210_Flag = 0;
-//            return;
-//        }
-    }
-     Yuntaiz_A_Move(1500,0);
+
 }
-
-
 
 
 //题目1
 void Problem1(void){
-    //运动目标位置复位，一键启动自动追踪系统
 
-    //声光提示
-    Buzzer_LongBeep();
-    LED_Toggle(2);
-    HAL_Delay(500);
-    LED_Toggle(2);
-    HAL_Delay(500);
-    LED_Toggle(2);
+    //运动目标位置复位，一键启动自动追踪系统
+    uint8_t data_str[255]={0};
+    //通知K210传递参数
+    sprintf((char*)data_str, "id:%d,x:%d,y:%d",2,0,0);
+    Usart2_SendString(data_str);
+    while(1)
+    {
+        if (K210_Flag == 1)
+        {
+            printf("进行计算");
+            //进行pid控制
+            uint16_t red_x=K210_data[0] ,red_y=K210_data[1],green_x=K210_data[2],green_y=K210_data[3];
+            if(red_x > 2000)
+            {
+                red_x -=2000;
+            }
+            int16_t x_err =  red_x - green_x, y_err = red_y -green_y;
+            if(x_err <=2  && y_err<=2)
+            {
+                 //声光提示
+                Buzzer_LongBeep();
+                LED_Toggle(2);
+                HAL_Delay(500);
+                LED_Toggle(2);
+                HAL_Delay(500);
+                LED_Toggle(2);
+            }
+            else{
+                   Yuntai_PID(x_err,y_err);
+            }
+
+            K210_Flag = 0;
+        }
+    }
+
 }
 
 
 //题目2
 void Problem2(void){
+    
 
 }
 
 //题目3
 void Problem3(void){
+  
   
 }
 
